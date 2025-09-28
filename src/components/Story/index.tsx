@@ -162,7 +162,7 @@ const Story = ({
   }, []);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center bg-gray-800">
+    <div className="relative w-full h-full flex items-center justify-center bg-gray-800/40">
       {/* Progress bars */}
       <div className="absolute z-10 top-4 right-0 left-0 space-x-2 w-full px-4 flex justify-center items-center flex-row">
         {stories.length > 0 &&

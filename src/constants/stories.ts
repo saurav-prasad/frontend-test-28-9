@@ -1,28 +1,29 @@
 export const storyList = [
   {
     id: 1,
-    username: "alex_adventures",
-    avatar: "/placeholder.svg?height=60&width=60",
-  },
-  {
-    id: 2,
-    username: "foodie_sarah",
-    avatar: "/placeholder.svg?height=60&width=60",
+    username: "Saurav Prasad",
+    avatar: "https://avatar.iran.liara.run/public/1",
   },
   {
     id: 3,
-    username: "tech_mike",
-    avatar: "/placeholder.svg?height=60&width=60",
+    username: "cactrohq",
+    avatar:
+      "https://framerusercontent.com/images/yvIRllpSNWoIbivMPqRnluqNPs.webp?scale-down-to=512&width=1024&height=1024",
+  },
+  {
+    id: 2,
+    username: "Narendra modi",
+    avatar: "https://avatar.iran.liara.run/public/2",
   },
   {
     id: 4,
-    username: "yoga_zen",
-    avatar: "/placeholder.svg?height=60&width=60",
+    username: "Cact",
+    avatar: "https://avatar.iran.liara.run/public/4",
   },
   {
     id: 5,
     username: "art_studio",
-    avatar: "/placeholder.svg?height=60&width=60",
+    avatar: "https://avatar.iran.liara.run/public/5",
   },
 ];
 

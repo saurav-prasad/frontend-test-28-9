@@ -4,6 +4,11 @@ interface StoryInterface {
   stories: { id: number; image: string }[];
   moveToPrevioiusStory: () => void;
   moveToNextStory: () => void;
+  userInfo: {
+    id: number;
+    username: string;
+    avatar: string;
+  };
 }
 
 const Story = ({
@@ -97,7 +102,6 @@ const Story = ({
     return stories.findIndex((story) => story.id === currentId);
   }
 
-  // Auto-progression timer
   useEffect(() => {
     if (isPaused || !currentId) return;
 
@@ -112,7 +116,6 @@ const Story = ({
     };
   }, [currentId, isPaused]);
 
-  // Progress bar animation
   useEffect(() => {
     if (isPaused || !currentId) {
       if (progressIntervalRef.current) {
@@ -142,14 +145,12 @@ const Story = ({
     };
   }, [currentId, isPaused]);
 
-  // Initialize first story
   useEffect(() => {
     if (stories.length > 0) {
       setCurrentId(stories[0].id);
     }
   }, [stories]);
 
-  // Cleanup intervals on unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) {

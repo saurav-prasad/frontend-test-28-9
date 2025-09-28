@@ -16,10 +16,16 @@ const StoryViewer = ({
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const [currentStoryId, setCurrentStoryId] = useState<number | null>(null);
   const [stories, setStories] = useState<any[]>([]);
+  const [userInfo, setUserInfo] = useState<{
+    id: number;
+    username: string;
+    avatar: string;
+  }>();
 
   useEffect(() => {
     if (clickedStoryId) {
       fetchStories(clickedStoryId);
+      setUserInfo(storyList.find((story) => story.id === clickedStoryId));
     }
   }, [clickedStoryId]);
 
@@ -44,10 +50,10 @@ const StoryViewer = ({
       (story) => story.id === currentStoryId
     );
     if (currentIndex > 0) {
+      setUserInfo(storyList[currentIndex - 1]);
+      fetchStories(storyList[currentIndex - 1].id);
       setCurrentStoryId(storyList[currentIndex - 1].id);
     } else {
-      // Optional: handle case when it's already the first story
-      console.log("Already at the first story");
       handleOnClose();
     }
   }
@@ -55,14 +61,11 @@ const StoryViewer = ({
     const currentIndex = storyList.findIndex(
       (story) => story.id === currentStoryId
     );
-    console.log("object");
     if (currentIndex < storyList.length - 1) {
-      console.log("object");
+      setUserInfo(storyList[currentIndex + 1]);
       fetchStories(storyList[currentIndex + 1].id);
       setCurrentStoryId(storyList[currentIndex + 1].id);
     } else {
-      // Optional: handle case when it's already the last story
-      console.log("Already at the last story");
       handleOnClose();
     }
   }
@@ -75,13 +78,26 @@ const StoryViewer = ({
     >
       {currentStoryId && stories.length > 0 && (
         <div className="relative w-full h-full max-w-md bg-black rounded-lg overflow-hidden">
-          <button
-            className="absolute top-8 right-4 z-10 text-white text-2xl font-bold cursor-pointer"
-            onClick={handleOnClose}
-          >
-            &times;
-          </button>
+          <div className="absolute top-8 right-4 left-4 flex flex-row justify-between items-center z-10">
+            <div className="flex justify-start items-center space-x-2">
+              <img
+                className="w-10 h-10 p-0.5 bg-gray-800 rounded-full border-1 border-pink-500"
+                src={userInfo?.avatar}
+                alt={userInfo?.username}
+              />
+              <span className="text-white text-sm pb-1">
+                {userInfo?.username}
+              </span>
+            </div>
+            <button
+              className=" text-white text-3xl mb-2 font-bold cursor-pointer"
+              onClick={handleOnClose}
+            >
+              &times;
+            </button>
+          </div>
           <Story
+            userInfo={userInfo!}
             moveToPrevioiusStory={handleMoveToPrevioiusStory}
             moveToNextStory={handleMoveToNextStory}
             stories={stories}

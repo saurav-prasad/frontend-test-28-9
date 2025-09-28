@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface StoryInterface {
   stories: { id: number; image: string }[];
@@ -14,8 +14,8 @@ const Story = ({
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<any>(null);
+  const progressIntervalRef = useRef<any>(null);
 
   const STORY_DURATION = 5000; // 5 seconds
   const PROGRESS_UPDATE_INTERVAL = 50; // Update progress every 50ms

@@ -8,7 +8,7 @@ function StoriesList({ onClick, storyList }: StoriesListInterface) {
     return (
       <img
         className="w-18 h-18 p-0.5 bg-gray-800 rounded-full border-2 border-pink-500"
-        src={`https://avatar.iran.liara.run/public/${value}`}
+        src={value}
         alt={value}
       />
     );
@@ -25,7 +25,7 @@ function StoriesList({ onClick, storyList }: StoriesListInterface) {
             key={i}
             className="  cursor-pointer"
           >
-            {getAvatar(i)}
+            {getAvatar(story.avatar)}
             <span className="text-xs text-white text-center block mt-1 w-16 truncate">
               {story.username}
             </span>

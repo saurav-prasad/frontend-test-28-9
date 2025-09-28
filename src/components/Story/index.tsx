@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-
+import classes from "./index.module.css";
 interface StoryInterface {
   stories: { id: number; image: string }[];
   moveToPrevioiusStory: () => void;
@@ -19,6 +19,7 @@ const Story = ({
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const intervalRef = useRef<any>(null);
   const progressIntervalRef = useRef<any>(null);
 
@@ -38,8 +39,13 @@ const Story = ({
           <img
             src={story.image}
             alt={`Story ${story.id}`}
-            className="max-w-full max-h-full object-contain"
+            className={`max-w-full max-h-full object-contain ${
+              imageLoaded ? "block" : "hidden"
+            }`}
+            onLoad={handleImageLoaded}
+            onError={handleImageLoaded}
           />
+          {!imageLoaded && <span className={classes.loader}></span>}
           <div
             onClick={handleGoPrev}
             className="group absolute z-[9] flex top-0 bottom-0 left-0 w-[25%] pl-5 justify-start items-center cursor-pointer"
@@ -71,6 +77,7 @@ const Story = ({
   }
 
   function handleGoNext() {
+    handleImageLoading();
     if (currentId) {
       const currentIndex = stories.findIndex((story) => story.id === currentId);
       if (currentIndex < stories.length - 1) {
@@ -81,8 +88,16 @@ const Story = ({
       }
     }
   }
-
+  function handleImageLoading() {
+    setIsPaused(true);
+    setImageLoaded(false);
+  }
+  function handleImageLoaded() {
+    setIsPaused(false);
+    setImageLoaded(true);
+  }
   function handleGoPrev() {
+    handleImageLoading();
     if (currentId) {
       const currentIndex = stories.findIndex((story) => story.id === currentId);
       if (currentIndex > 0) {
@@ -103,7 +118,7 @@ const Story = ({
   }
 
   useEffect(() => {
-    if (isPaused || !currentId) return;
+    if (isPaused || !imageLoaded || !currentId) return;
 
     intervalRef.current = setTimeout(() => {
       handleGoNext();
@@ -114,10 +129,10 @@ const Story = ({
         clearTimeout(intervalRef.current);
       }
     };
-  }, [currentId, isPaused]);
+  }, [currentId, isPaused, imageLoaded]);
 
   useEffect(() => {
-    if (isPaused || !currentId) {
+    if (isPaused || !imageLoaded || !currentId) {
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
       }
@@ -143,9 +158,10 @@ const Story = ({
         clearInterval(progressIntervalRef.current);
       }
     };
-  }, [currentId, isPaused]);
+  }, [currentId, isPaused, imageLoaded]);
 
   useEffect(() => {
+    handleImageLoading();
     if (stories.length > 0) {
       setCurrentId(stories[0].id);
     }
